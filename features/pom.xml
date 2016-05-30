@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Necessary TODO: Put your copyright here.
+
+ This program and the accompanying materials are made available under the
+ terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ and is available at http://www.eclipse.org/legal/epl-v10.html
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.opendaylight.odlparent</groupId>
+        <artifactId>features-parent</artifactId>
+        <version>1.6.2-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>org.opendaylight.toaster</groupId>
+    <artifactId>features-toaster</artifactId>
+    <name>${project.artifactId}</name>
+    <version>0.3.0-SNAPSHOT</version>
+   <packaging>jar</packaging>
+
+    <properties>
+        <!-- INTERNAL TODO: Need explanation of what's going on. -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sitedeploy>dav:http://nexus.opendaylight.org/content/sites/site</sitedeploy>
+
+        <!-- Build Plugin Versions -->
+        <controller.config.version>0.4.2-SNAPSHOT</controller.config.version>
+        <controller.mdsal.version>1.3.2-SNAPSHOT</controller.mdsal.version>
+
+        <netconf.parent.version>1.0.2-SNAPSHOT</netconf.parent.version>
+        <netconf.restconf.version>1.3.2-SNAPSHOT</netconf.restconf.version>
+        <jmxGeneratorPath>src/main/yang-gen-config</jmxGeneratorPath>
+        <salGeneratorPath>src/main/yang-gen-sal</salGeneratorPath>
+
+        <yangtools.version>0.8.2-SNAPSHOT</yangtools.version>
+        <yangtools.binding.version>0.8.2-SNAPSHOT</yangtools.binding.version>
+
+        <mdsal.version>2.0.2-SNAPSHOT</mdsal.version>
+        <mdsal.model.version>0.8.2-SNAPSHOT</mdsal.model.version>
+
+
+        <controller.branding.version>1.2.2-SNAPSHOT</controller.branding.version>
+        <controller.karaf.resources.version>1.6.2-SNAPSHOT</controller.karaf.resources.version>
+        <controller.karaf.empty.version>1.6.2-SNAPSHOT</controller.karaf.empty.version>
+
+
+        <pax.logging.service.version>1.8.2</pax.logging.service.version>
+        <pax.logging.api.version>1.8.2</pax.logging.api.version>
+        <dlux.version>0.3.2-SNAPSHOT</dlux.version>
+
+        <!-- 项目其他依赖-->
+        <!-- <karaf.maven.version>3.0.1</karaf.maven.version>-->
+        <mojo.build.helper.maven.plugin.version>1.8</mojo.build.helper.maven.plugin.version>
+        <!-- Test Libraries -->
+        <karaf.version>3.0.3</karaf.version>
+        <powermock.version>1.5.6</powermock.version>
+        <junitparams.version>1.0.3</junitparams.version>
+        <javafasterxml.version>3.1.3</javafasterxml.version>
+
+
+
+        <!-- These properties are used in later sections. If you don't specify
+            plugin versions MVN will give a warning, and the below enforces the version
+            number for consistency. INTERNAL TODO: These may/should be moved to the odlparent
+            project -->
+        <maven.info.reports.version>2.7</maven.info.reports.version>
+
+        <!-- Sonar config -->
+        <!-- Only required for "external" projects. ie for projects within the
+            project, this is not required. -->
+        <sonar-jacoco-listeners.version>2.4</sonar-jacoco-listeners.version>
+        <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+        <sonar.jacoco.reportPath>target/code-coverage/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.jacoco.itReportPath>target/code-coverage/jacoco-it.exec</sonar.jacoco.itReportPath>
+        <sonar.profile>Sonar way with Findbugs</sonar.profile>
+
+        <!-- Root directory for YANGtool generated-sources -->
+        <!-- INTERNAL TODO: We need to revist this as the implication of putting this
+        under src is that it's written not generated code. It should exist under the target
+        directory (rovarga). The issue is that if this ends up in SCM (git), every build will
+        cause a new "version". If you use src/<foo> and don't want it in SCM (git) then ensure
+        you have a corresponding entry in .gitignore
+        -->
+
+        <salGeneratorPath>target/generated-sources/sal</salGeneratorPath>
+        <jmxGeneratorPath>target/generated-sources/config</jmxGeneratorPath>
+    </properties>
+
+    <!--<dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.opendaylight.toaster</groupId>
+                <artifactId>toaster-parent</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>-->
+
+   <dependencies>
+       <!-- Necessary TODO: Put dependencies on any feature repos you use in your features.xml file.-->
+       <!-- Note: they will need to be <type>xml</xml>
+            and <classifier>features</classifier>.
+            One other thing to watch for is to make sure they are
+            <scope>compile</compile>, which they should be by default,
+            but be cautious lest they be at a different scope in a parent pom.
+
+            Examples:
+                <dependency>
+                    <groupId>org.opendaylight.openflowplugin</groupId>
+                    <artifactId>features-openflowplugin</artifactId>
+                    <version>0.1.0-SNAPSHOT</version>
+                    <classifier>features</classifier>
+                    <type>xml</type>
+                </dependency>
+       -->
+       <dependency>
+           <groupId>org.opendaylight.yangtools</groupId>
+           <artifactId>features-yangtools</artifactId>
+           <version>${yangtools.version}</version>
+           <classifier>features</classifier>
+           <type>xml</type>
+       </dependency>
+       <dependency>
+           <groupId>org.opendaylight.controller</groupId>
+           <artifactId>features-mdsal</artifactId>
+           <version>${controller.mdsal.version}</version>
+           <classifier>features</classifier>
+           <type>xml</type>
+       </dependency>
+       <!-- comment out restconf if not required for your application -->
+       <dependency>
+           <groupId>org.opendaylight.netconf</groupId>
+           <artifactId>features-restconf</artifactId>
+           <version>${netconf.restconf.version}</version>
+           <classifier>features</classifier>
+           <type>xml</type>
+       </dependency>
+
+       <!--
+      Necessary TODO: Put dependencies for bundles directly referenced
+      in your features.xml file.  For every <bundle> reference in your
+      features.xml file, you need a corresponding dependency here.
+
+    -->
+       <dependency>
+           <groupId>org.opendaylight.toaster</groupId>
+           <artifactId>toaster-api</artifactId>
+           <version>0.3.0-SNAPSHOT</version>
+       </dependency>
+       <dependency>
+           <groupId>org.opendaylight.toaster</groupId>
+           <artifactId>toaster-impl</artifactId>
+           <version>0.3.0-SNAPSHOT</version>
+       </dependency>
+       <dependency>
+           <groupId>org.opendaylight.toaster</groupId>
+           <artifactId>toaster-consumer</artifactId>
+           <version>0.3.0-SNAPSHOT</version>
+       </dependency>
+
+    <!--
+      Necessary TODO: Put dependencies for configfiles directly referenced
+      in your features.xml file.  For every <configfile> reference in your
+      features.xml file, you need a corresponding dependency here.
+
+      Example (presuming here version is coming from the parent pom):
+      <dependency>
+        <groupId>org.opendaylight.toaster</groupId>
+        <artifactId>toaster-config</artifactId>
+        <type>xml</type>
+        <classifier>config</classifier>
+      </dependency>
+    -->
+
+    <!--
+      Optional TODO: Remove TODO comments.
+    -->
+
+    <!-- test to validate features.xml -->
+       <!--
+        As part of the build, when you do mvn clean install,eEach feature listed in features.xml is tested in its own
+        karaf container ie opendaylight-karaf-empty to see if it installs successfully, it's a convenient verification
+        step.
+        -->
+    <dependency>
+      <groupId>org.opendaylight.odlparent</groupId>
+      <artifactId>features-test</artifactId>
+      <version>1.6.2-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- dependency for opendaylight-karaf-empty for use by testing -->
+    <dependency>
+      <groupId>org.opendaylight.controller</groupId>
+      <artifactId>opendaylight-karaf-empty</artifactId>
+      <version>${controller.karaf.empty.version}</version>
+      <type>zip</type>
+    </dependency>
+    <!-- Uncomment this if you get an error : java.lang.NoSuchMethodError: org.slf4j.helpers.MessageFormatter.format(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)Lorg/slf4j/helpers/FormattingTuple;
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.2</version>
+    </dependency>
+    -->
+   </dependencies>
+
+   <build>
+      <resources>
+         <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+         </resource>
+      </resources>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+               <execution>
+                  <id>filter</id>
+                  <phase>generate-resources</phase>
+                  <goals>
+                     <goal>resources</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <executions>
+               <execution>
+                  <id>attach-artifacts</id>
+                  <phase>package</phase>
+                  <goals>
+                     <goal>attach-artifact</goal>
+                  </goals>
+                  <configuration>
+                     <artifacts>
+                        <artifact>
+                           <file>${project.build.directory}/classes/${features.file}</file>
+                           <type>xml</type>
+                           <classifier>features</classifier>
+                        </artifact>
+                     </artifacts>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <systemPropertyVariables>
+                <karaf.distro.groupId>org.opendaylight.controller</karaf.distro.groupId>
+                <karaf.distro.artifactId>opendaylight-karaf-empty</karaf.distro.artifactId>
+                <karaf.distro.version>${controller.karaf.empty.version}</karaf.distro.version>
+              </systemPropertyVariables>
+              <dependenciesToScan>
+               <dependency>org.opendaylight.odlparent:features-test</dependency>
+              </dependenciesToScan>
+            </configuration>
+          </plugin>
+      </plugins>
+   </build>
+</project>
